@@ -11,6 +11,9 @@ sudo geany /etc/nginx/sites-available/default
 
 file 'install_script' is probably the best way how to install everything properly
 
+phpChart_Lite.zip should be unpacked (as sudo) in /var/www/html/phpChartLite/
+there is lines in the installation script
+
 
 
 All rights reserverd.
