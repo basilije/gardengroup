@@ -23,7 +23,7 @@ sudo nano /etc/nginx/sites-available/default
 sudo nano /var/www/html/index.php
 sudo systemctl stop nginx
 sudo systemctl start nginx
-chown -R www-data:www-data home/pi/gardengroup/
+sudo chown -R www-data:www-data /home/pi/gardengroup
 sudo geany /etc/php/7.3/cli/php.ini
 sudo apt-get install php7.3-sqlite
 sudo service nginx restart
