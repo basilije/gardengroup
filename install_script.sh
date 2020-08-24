@@ -5,7 +5,7 @@ mkdir gardengroup
 cd gardengroup
 mkdir logs
 mkdir dbs
-cd ..
+cd ~
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
 cd Adafruit_Python_GPIO
 sudo python setup.py install
