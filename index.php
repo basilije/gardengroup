@@ -1,56 +1,28 @@
-<!DOCTYPE html>
-<html>
-<title>Garden Group</title>
-
-
-<style>
-html, body {
-    height: 100%;
-}
-
-html {
-    display: table;
-    margin: auto;
-}
-
-body {
-    display: table-cell;
-    vertical-align: top;
-}
-h4
-{
-	color:black;
-  height:42px;
-  border: none;
-  box-shadow: -2px 5px 0px -2px grey, 2px 5px 0px -2px grey;
-}
-
-</style>	
-
-<head> 
-    <title> garden group</title> 
-</head> 
+<?php
+	    
+echo ' <!DOCTYPE html><html><title>Magic Garden</title><html lang="en">
+<head>  <meta charset="utf-8">  <title>Garden Group</title>  <meta name="description" content="Garden Group">  <meta name="author" content="Garden Group"></head>
+<style>html, body {    height: 100%;}html {    display: table;    margin: auto;}  body {    display: table-cell;    vertical-align: top;}  h4{	color:black;  height:42px;  border: none;  box-shadow: -2px 5px 0px -2px grey, 2px 5px 0px -2px grey;}</style>	
+<head>     <title> magic garden</title> </head> 
 
 <body>
-	
-	    <?php
-	    
-	    echo '
-	
 	<i>__________  something {special}   ! ...</i>
 	<h1 style="color:green;">         Magic Garden    </h1>		
 	<h4>         click on the button to feed the plant    </h4>
 
 	<br></br>
+	
 	<form method="post">
 		<input type = "submit" style="height:42px;" name="B1" value="Turn ON Switch 1 for"/> 
 		<input type = "Text" style="height:42px;"value ="" name = "duration1"> seconds
 	</form>  
 	<br></br>  
+	
 	<form method="post"> 
 		<input type = "submit" style="height:42px;" name="B2" value="Turn ON Switch 2 for"/> 
 		<input type = "Text" style="height:42px;" value ="" name = "duration2"> seconds
-	</form>        
+	</form>  
+	      
 	<br></br>
 	<form method="post"> 
 		<select name="analog_inputs" style="height:42px;"><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option><option value="P4">P4</option> <option value="P5">P5</option><option value="P6">P6</option><option value="P7">P7</option>
@@ -175,8 +147,6 @@ h4
 			'yaxis'=> array('label'=>'Value')		));
 	$pc4->draw(800,500);
 
-
-
 	echo '<h4>       configuration  settings    </h4> ';
 	echo ' <form action="" method="post">';
     $content0 = file_get_contents($config_file_name);
@@ -187,5 +157,4 @@ h4
   ?>
       <br></br>
 <i>... !you know why?  __________ </i>
-
 </body>
