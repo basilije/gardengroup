@@ -1,4 +1,4 @@
-Gardengroup are: Kelsey SLavin, Javier Dominguez, Curtis Aloia and Vasilije Mehandzic.
+Gardengroup are: Kelsey SLavin, Javier Dominguez, Curtis Aloia and  Vasilije Mehandzic.
 
 
 
