@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Magic Garden</title>
+<title>gardengroup</title>
 
 
 <style>
@@ -28,12 +28,12 @@ h4
 </style>	
 
 <head> 
-    <title> magic garden</title> 
+    <title> Garden Group</title> 
 </head> 
 
 <body>
 	<i>__________  something {special}   ! ...</i>
-	<h1 style="color:green;">         Magic Garden    </h1>		
+	<h1 style="color:green;">        Garden Group   </h1>		
 	<h4>         click on the button to feed the plant    </h4>
 
 	<br></br>
