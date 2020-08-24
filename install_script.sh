@@ -36,6 +36,7 @@ sudo geany /etc/php/7.3/cli/php.ini {and enable sqlite3)
 sudo apt-get install php7.3-sqlite
 sudo service nginx restart
 
+wget https://phpchart.com/phpChart/download/lswdp/phpChart_Lite.zip
 wget https://github.com/basilije/gardengroup/blob/master/phpChart_Lite.zip
 sudo mkdir /var/www/html/phpChart_Lite
 sudo unzip phpChart_Lite.zip -d /var/www/html/phpChart_Lite/
