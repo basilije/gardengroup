@@ -33,4 +33,5 @@ sudo apt --fix-broken install
 wget https://download.teamviewer.com/download/linux/teamviewer-host_armhf.deb
 sudo dpkg -i teamviewer-host_armhf.deb
 wget https://github.com/basilije/gardengroup/blob/master/phpChart_Lite.zip
-sudo unzip -d /var/www/html/ phpChart_Lite.zip
+sudo mkdir /var/www/html/phpChart_Lite
+sudo unzip -d /var/www/html/phpChart_Lite phpChart_Lite.zip
