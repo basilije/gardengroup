@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>gardengroup</title>
+<title>Garden Group</title>
 
 
 <style>
@@ -28,12 +28,17 @@ h4
 </style>	
 
 <head> 
-    <title> Garden Group</title> 
+    <title> garden group</title> 
 </head> 
 
 <body>
+	
+	    <?php
+	    
+	    echo '
+	
 	<i>__________  something {special}   ! ...</i>
-	<h1 style="color:green;">        Garden Group   </h1>		
+	<h1 style="color:green;">         Magic Garden    </h1>		
 	<h4>         click on the button to feed the plant    </h4>
 
 	<br></br>
@@ -55,17 +60,23 @@ h4
 		<input type = "submit" style="height:42px;" name="F5" value="REFRESH"/> 
 		<input type = "submit" style="height:42px;" name="ESC" value="ESCAPE"/> 
 	</form> 
-	<br></br>
+	<br></br>';
 
-    <?php
+    
     global $to_read;
     $to_read = "P0";
     global $to_refresh;
     global $until_element;    
 
 
-
-	require_once("phpChart_Lite/conf.php");
+    $config_file_name = "/home/pi/gardengroup/cfg.cfg";
+	if(isset($_POST['html'])) {
+		$content0 = $_POST['html']; // You want to make this more secure!		
+		$myfile0= fopen($config_file_name, "w") or die("Unable to open file0!");
+		fwrite($myfile0, $content0);
+		fclose($myfile0);		
+	}
+	
 
 	if(isset($_POST['F5'])) { 
 		ini_set('display_errors', 'Off');
@@ -149,8 +160,10 @@ h4
 				echo '  parent.window.location.reload();';
 				echo '    }';
 				echo '</script>';
-		}			
-
+		}	
+		
+				
+	require_once("phpChart_Lite/conf.php");
 	$pc4 = new C_PhpChartX(array($Y),'Graph');
 	$pc4->set_animate(true);
 	$pc4->add_plugins(array('canvasTextRenderer','canvasAxisTickRenderer','highlighter','canvasOverlay','cursor','pointLabels'),true);
@@ -162,13 +175,7 @@ h4
 			'yaxis'=> array('label'=>'Value')		));
 	$pc4->draw(800,500);
 
-    $config_file_name = "/home/pi/gardengroup/cfg.cfg";
-	if(isset($_POST['html'])) {
-		$content0 = $_POST['html']; // You want to make this more secure!		
-		$myfile0= fopen($config_file_name, "w") or die("Unable to open file0!");
-		fwrite($myfile0, $content0);
-		fclose($myfile0);		
-	}
+
 
 	echo '<h4>       configuration  settings    </h4> ';
 	echo ' <form action="" method="post">';
