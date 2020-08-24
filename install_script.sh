@@ -24,7 +24,7 @@ sudo nano /var/www/html/index.php
 sudo systemctl stop nginx
 sudo systemctl start nginx
 sudo chown -R pi:www-data /home/pi/gardengroup
-sudo geany /etc/php/7.3/cli/php.ini
+sudo geany /etc/php/7.3/cli/php.ini {and enable sqlite3)
 sudo apt-get install php7.3-sqlite
 sudo service nginx restart
 sudo unzip phpChart_Lite.zip -d /var/www/html/
