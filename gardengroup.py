@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-# Import SPI library (for hardware SPI) and MCP3008 library.
 import Adafruit_GPIO.SPI as a
 import csv as c
 import datetime as d
@@ -10,7 +9,6 @@ import Adafruit_MCP3008 as m
 import os as o
 import time as t
 import sqlite3 as q
-
   
 def connectToSpecificDatabase():
     sqliteConnection = None
@@ -72,13 +70,13 @@ def appendListAsRow(file_name, list_of_elem):
     except Exception as ex:
         print(ex.type(), ex.args, " appending problem")
      
-def to_on_sec(pump,s):
+def gpioON(gpio,s):
     if s>0:
-        g.output(pump, g.LOW)
+        g.output(gpio, g.LOW)
         t.sleep(s)
 
-def to_off(pump):
-    g.output(pump, g.HIGH)
+def gpioOFF(gpio):
+    g.output(gpio, g.HIGH)
   
 def gpioOnTime(no_gpio, on_time):
     print("COMMAND:", no_gpio, on_time)
@@ -86,9 +84,9 @@ def gpioOnTime(no_gpio, on_time):
     g.setmode(g.BCM)
     g.setup(no_gpio,g.OUT, initial=g.HIGH)
 
-    to_off(no_gpio)
-    to_on_sec(no_gpio, on_time)
-    to_off(no_gpio)   
+    gpioOFF(no_gpio)
+    gpioON(no_gpio, on_time)
+    gpioOFF(no_gpio)   
 
 def mainCommand(command_file_name):
     try:
@@ -102,7 +100,6 @@ def mainCommand(command_file_name):
         print(ex.type(), ex.args, " main problem")
 
  
-
 # Main program loop.
 sqlite_db_folder_name = "dbs/"
 log_folder_name = "logs/"
@@ -149,9 +146,3 @@ while True:
             sqliteConnection.close()        
     except Exception as ex:
         print("SQL error", type(ex), ex.args)
-
-
-
-
-            
-                   
