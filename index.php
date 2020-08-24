@@ -1,20 +1,19 @@
 <?php
-	
 	echo ' <!DOCTYPE html><html><title>The Real Signals Of Your Garden</title><html lang="en">
 	<head>  <meta charset="utf-8">  <title>The Real Signals Of Your Garden</title>  <meta name="description" content="The Real Signals Of Your Garden">  <meta name="author" content="The Real Signals Of Your Garden"></head>
-	<style>html, body {    height: 100%;}html {    display: table;    margin: auto;}  body {  background-color:#EEE;  display: table-cell;    vertical-align: top;}  h4{	color:black;  height:42px;  border: none;  box-shadow: -2px 5px 0px -2px grey, 2px 5px 0px -2px grey;}</style>	
+	<style>html, body {    height: 100%;}html {    display: table;    margin: auto;}  body {  background-color:#CDC;  display: table-cell;    vertical-align: top;}  h4{	color:black;  height:42px;  border: none;  box-shadow: -2px 5px 0px -2px grey, 2px 5px 0px -2px grey;}</style>	
 	<body><i>__________  something {special}   ! ...</i> <h1 style="color:green;"> GardenGroup </h1><h4>         The Real Signals Of Your Garden     </h4>';
 	
 	global $to_read,$to_refresh,$until_element;   
-	$current_folder = "/home/pi/gardengroup/"; 
-	$to_read = "P0";
+	$current_folder = "/home/pi/gardengroup/"; 	
 	$config_file_name = $current_folder."cfg.cfg";
 	$content0 = file_get_contents($config_file_name);
 	$ini_array = parse_ini_file($config_file_name);
 	$refresh_rate = $ini_array[refresh]*1000;
-	echo '<form method="post"> analog input <select name="analog_inputs" style="height:42px;"><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option><option value="P4">P4</option> <option value="P5">P5</option><option value="P6">P6</option><option value="P7">P7</option>	</select>';
-	echo 'last <input type = "Text" style="height:42px;" name = "duration3">		values <input type="checkbox" style="height:42px;"id="to_refresh" name="to_refresh" value="on" ';
-	if ($to_refresh!='on')	echo 'un'; echo 'checked>(auto-refresh)		<input type="submit" style="height:42px;" name="B3"></form>';
+	$button_style = $ini_array[button_style];
+	$default_input = $ini_array[input];
+	$to_read = $default_input;
+	$default_no_of_values = $ini_array[values];
 			
 	if(isset($_POST['html'])) {
 		$content0 = $_POST['html']; // You want to make this more secure!		
@@ -53,16 +52,19 @@
 	
 	if ($to_refresh=='on'){	echo '<script type="text/javascript">  setInterval("my_function();",'.$refresh_rate.'); function my_function(){ parent.window.location.reload(); }</script>';}	
 
+	echo '<form method="post"> analog input <select name="analog_inputs" '.$button_style.''.$button_style.'><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option><option value="P4">P4</option> <option value="P5">P5</option><option value="P6">P6</option><option value="P7">P7</option>	</select>';
+	echo 'last <input type = "Text" '.$button_style.' name = "duration3"> values <input type="checkbox" '.$button_style.'id="to_refresh" name="to_refresh" value="on" ';
+	if ($to_refresh=='on'){}else {echo 'un';} echo 'checked>(auto-refresh) <input type="submit" '.$button_style.' name="B3"></form>';
+
 	try {
 		$Y = array();	
-		if ($until_element == '') {	$until_element = 42;}
+		if ($until_element == '') {	$until_element = $default_no_of_values;}
 		$ui = (int)$until_element*4;	
 		$filename = "/home/pi/gardengroup/dbs/".date("Y-m-d").".db";
 		$db_handle  = new SQLite3($filename);
 		//~ probably there is the smarter way			
 		$query_string = "SELECT ".$to_read.",dt FROM records ORDER BY dt DESC";
-		$query= $db_handle->query($query_string);
-		$result=$query->fetchArray();		
+		$query= $db_handle->query($query_string);	
 		$co = 0;
 		while($result=$query->fetchArray()) {
 			foreach($result as $ele){
@@ -80,18 +82,18 @@
 	$pc4->set_cursor(array('show'=>true,'zoom'=>true));
 	$pc4->set_point_labels(array('show'=>false));
 	$pc4->set_highlighter(array('show'=>false));
-	$pc4->set_axes(array(			'xaxis'=> array('label'=> 'Last '.$until_element.' Values'),'yaxis'=> array('label'=>'Value')		));
+	$pc4->set_axes(array('xaxis'=> array('label'=> 'Last '.$until_element.' Values'),'yaxis'=> array('label'=>'Value')));
 	$pc4->set_animate(true);
 	$pc4->draw(800,500);
 
 	echo '<h4>         click on the button to feed the plant    </h4>	<br></br>	
-		<form method="post">		<input type = "submit" style="height:42px;" name="B1" value="Turn ON Switch 1 for"/> 		<input type = "Text" style="height:42px;"value ="" name = "duration1"> seconds	</form>  	<br></br>  
-		<form method="post"> 		<input type = "submit" style="height:42px;" name="B2" value="Turn ON Switch 2 for"/> 		<input type = "Text" style="height:42px;" value ="" name = "duration2"> seconds	</form>  <br></br>';
+		<form method="post">		<input type = "submit" '.$button_style.' name="B1" value="Turn ON Switch 1 for"/> 		<input type = "Text" '.$button_style.'value ="" name = "duration1"> seconds	</form>  	<br></br>  
+		<form method="post"> 		<input type = "submit" '.$button_style.' name="B2" value="Turn ON Switch 2 for"/> 		<input type = "Text" '.$button_style.' value ="" name = "duration2"> seconds	</form>  <br></br>';
 		
 	echo '<h4>       configuration  settings    </h4>  <form action="" method="post">';
-	echo '<textarea name="html"style="width:660px;height:330px;">' . htmlspecialchars($content0) . '</textarea> <input type="submit" style="height:42px;" id="E1" name="E1" value="Save configuration" />';
+	echo '<textarea name="html"style="width:660px;height:330px;">' . htmlspecialchars($content0) . '</textarea> <input type="submit" '.$button_style.' id="E1" name="E1" value="Save configuration" />';
 	
-	echo '<h4>       special  commands    </h4> <input type = "submit" style="height:42px;" name="ESC" value="stop refresh"/> ';		
+	echo '<h4>       special  commands    </h4> <input type = "submit" '.$button_style.' name="ESC" value="stop refresh"/> ';		
 	echo '<br></br><i>... !you know why?  __________ </i></body></html>';
-	
 ?>
+
