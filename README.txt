@@ -16,4 +16,4 @@ there is lines in the installation script
 
 
 
-All rights reserverd.
+All rights reserved.
