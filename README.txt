@@ -1,8 +1,4 @@
-
-
-Gardengroup are: Kelsey SLavin, Javier Dominguez, Curtis Aloia and Vasilije Mehandzic.
-
-
+hardengroup are: Kelsey SLavin, Javier Dominguez, Curtis Aloia and Vasilije Mehandzic.
 
 
 gardengroup.py shoup be in /home/pi/gardengroup
@@ -13,4 +9,4 @@ phpChart_Lite.zip should be unpacked (as sudo) into /var/www/html/phpChartLite/
 
 
 
-All rights reserved.
+all rights reserved.
