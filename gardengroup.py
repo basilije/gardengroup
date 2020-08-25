@@ -148,7 +148,7 @@ while True:
             try:
                 o.remove(command_file_name)            
             except Exception as ex:
-                printException("no command file name", ex)            
+                printException("NO COMMAND FILE NAME EXCEPTION ", ex)            
      
     # Write the log to the database.         
     try:
