@@ -44,6 +44,6 @@ sudo apt --fix-broken install
 wget https://download.teamviewer.com/download/linux/teamviewer-host_armhf.deb
 sudo dpkg -i teamviewer-host_armhf.deb
 
-echo -e '#!/usr/bin/bash\r\n\r\ncd /home/pi/gardengroup/\r\npython3 gardengroup.py\r\n' > /home/pi/gardengroup/startup_script.sh
+echo -e '#!/usr/bin/bash\r\n\r\ncd /home/pi/gardengroup/\r\npython3 gardengroup.py\r\n' > /home/pi/startup_script.sh
 sudo crontab -e
-@reboot sh /home/pi/gardengroup/startup_script.sh
+@reboot sh /home/pi/startup_script.sh
