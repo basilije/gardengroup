@@ -25,7 +25,7 @@ def connectToSpecificDatabase(sqlite_db_folder_name):
 
 def createTable(sqliteConnection):
     try:
-        sqlite_create_table_query = '''CREATE TABLE IF NOT EXISTS records (P0 INT NOT NULL, P1 INT NOT NULL, P2 INT NOT NULL, P3 INT NOT NULL, P4 INT NOT NULL, P5 INT NOT NULL, P6 INT NOT NULL, P7 INT NOT NULL, dt TEXT NOT NULL);'''
+        sqlite_create_table_query = '''CREATE TABLE records (P0 INT NOT NULL, P1 INT NOT NULL, P2 INT NOT NULL, P3 INT NOT NULL, P4 INT NOT NULL, P5 INT NOT NULL, P6 INT NOT NULL, P7 INT NOT NULL, dt TEXT NOT NULL);'''
         cursor = sqliteConnection.cursor()    
         cursor.execute(sqlite_create_table_query)
         sqliteConnection.commit()
