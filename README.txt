@@ -7,7 +7,7 @@ index.php should be in your nginx running folder (/var/www/html/)
 
 
 file 'default' is how your nginx should be adjusted:
-sudo geany /etc/nginx/sites-available/default
+edit (as sudo) /etc/nginx/sites-available/default
 
 file 'install_script.sh' is probably the best way how to install everything properly
 
