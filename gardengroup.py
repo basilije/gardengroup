@@ -9,14 +9,18 @@ import Adafruit_MCP3008 as m
 import os as o
 import time as t
 import sqlite3 as q
-  
+
+
+def printException(text, exce):
+    print(text, type(exce), exce.args)
+
 def connectToSpecificDatabase():
     sqliteConnection = None
     try:
         sqlite_database_name = sqlite_db_folder_name + str(d.datetime.now()).split(" ")[0] +'.db'
         sqliteConnection = q.connect(sqlite_database_name)
-    except:
-        print("Not Successfully Connected to database", sqlite_database_name)
+    except Exception as ex:
+        printException("CONNECT TO DB " + sqlite_database_name +" EXCEPTION ", ex)
     return sqliteConnection
 
 def createTable(sqliteConnection):
@@ -25,17 +29,20 @@ def createTable(sqliteConnection):
         cursor = sqliteConnection.cursor()    
         cursor.execute(sqlite_create_table_query)
         sqliteConnection.commit()
-        print("SQLite table created or already exists")
+        #print("SQLite table created or already exists")
         cursor.close()  
     except Exception as ex:
-        print(type(ex), ex.args)
+        printException("CREATE TABLE EXCEPTION ", ex)
 
 def insertRecord(connection, record):
-    sql = ''' INSERT INTO records(P0,P1,P2,P3,P4,P5,P6,P7,dt) VALUES(?,?,?,?,?,?,?,?,?) '''
-    cur = connection.cursor()
-    cur.execute(sql, record)
-    connection.commit()
- 
+    try:
+        sql = ''' INSERT INTO records(P0,P1,P2,P3,P4,P5,P6,P7,dt) VALUES(?,?,?,?,?,?,?,?,?) '''
+        cur = connection.cursor()
+        cur.execute(sql, record)
+        connection.commit()
+    except Exception as ex:
+        printException("CREATE TABLE EXCEPTION", ex)
+
 def printHeader():
     # Print nice channel column headers.
     print('Reading MCP3008 values, press Ctrl-C to quit...')
@@ -44,31 +51,39 @@ def printHeader():
 
 def getMCPDevice(hardware = True):
     mcp = None
-    if hardware:
-        # Hardware SPI configuration:
-        SPI_PORT   = 0
-        SPI_DEVICE = 0
-        mcp = m.MCP3008(spi=a.SpiDev(SPI_PORT, SPI_DEVICE))   
+    try:
+        if hardware:
+            # Hardware SPI configuration:
+            SPI_PORT, SPI_DEVICE = 0, 0
+            mcp = m.MCP3008(spi=a.SpiDev(SPI_PORT, SPI_DEVICE))  
+    except Exception as ex:
+        printException("CREATE TABLE EXCEPTION ", ex)  
     return mcp
 
-def initializeLog(log_file_name, table_header):
-    appendListAsRow(log_file_name, table_header)
-    print('-' * 57, log_file_name)
-    fi = open(log_file_name, "w+").close()    
-
-def appendLog(log_file_name, values):
-    values.append(d.datetime.now())  # Append the date and time.
-    log = [str(v) for v in values]  # To the list of a strings.
-    print(log) # Why not?
-    appendListAsRow(log_file_name, log)      
-    
 def appendListAsRow(file_name, list_of_elem):   
     try:
         write_obj= open(file_name, 'a+', newline='') # Open file in append mode
         csv_writer = c.writer(write_obj)  # Create a writer object from csv module
         csv_writer.writerow(list_of_elem)  # Add contents of list as last row in the csv file
     except Exception as ex:
-        print(ex.type(), ex.args, " appending problem")
+        printException("APPEND LIST AS ROW EXCEPTION ", ex)
+
+def initializeLog(log_file_name, table_header):
+    try:
+        appendListAsRow(log_file_name, table_header)
+        print('-' * 57, log_file_name)
+        fi = open(log_file_name, "w+").close()    
+    except Exception as ex:
+        printException("INITIALIZE LOG EXCEPTION ", ex)
+
+def appendLog(log_file_name, values):
+    try:
+        values.append(d.datetime.now())  # Append the date and time.
+        log = [str(v) for v in values]  # To the list of a strings.
+        print(log) # Why not?
+        appendListAsRow(log_file_name, log)      
+    except Exception as ex:
+        printException("APPEND LOG EXCEPTION ", ex)
      
 def gpioON(gpio,s):
     if s>0:
@@ -88,7 +103,7 @@ def gpioOnTime(no_gpio, on_time):
     gpioON(no_gpio, on_time)
     gpioOFF(no_gpio)   
 
-def mainCommand(command_file_name):
+def fileToThread(command_file_name):
     try:
         on_time = 0
         int_in_file = open(command_file_name).read()
@@ -97,7 +112,7 @@ def mainCommand(command_file_name):
         no_gpio = int(command_file_name.replace(".txt",""))    
         h.Thread(target=gpioOnTime, args=(no_gpio, on_time)).start()
     except Exception as ex:
-        print(ex.type(), ex.args, " main problem")
+        printException("FILE TO THREAD EXCEPTION ", ex)
 
  
 # Main program loop.
@@ -129,11 +144,11 @@ while True:
         command_file_name = str(ch) + ".txt"
         if o.path.exists(command_file_name):
             # if exists, do the GPIO thing:
-            mainCommand(command_file_name)            
+            fileToThread(command_file_name)            
             try:
                 o.remove(command_file_name)            
             except Exception as ex:
-                print("no command file name", ex.type(), ex.args)            
+                printException("no command file name", ex)            
      
     # Write the log to the database.         
     try:
@@ -145,4 +160,4 @@ while True:
         if (sqliteConnection):
             sqliteConnection.close()        
     except Exception as ex:
-        print("SQL error", type(ex), ex.args)
+        printException("SQL EXCEPTION ", EX)
