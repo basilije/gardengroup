@@ -14,7 +14,7 @@ import sqlite3 as q
 def printException(text, exce):
     print(text, type(exce), exce.args)
 
-def connectToSpecificDatabase():
+def connectToSpecificDatabase(sqlite_db_folder_name):
     sqliteConnection = None
     try:
         sqlite_database_name = sqlite_db_folder_name + str(d.datetime.now()).split(" ")[0] +'.db'
@@ -29,7 +29,6 @@ def createTable(sqliteConnection):
         cursor = sqliteConnection.cursor()    
         cursor.execute(sqlite_create_table_query)
         sqliteConnection.commit()
-        #print("SQLite table created or already exists")
         cursor.close()  
     except Exception as ex:
         printException("CREATE TABLE EXCEPTION ", ex)
@@ -129,30 +128,33 @@ printHeader()
 initializeLog(log_file_name, table_header)
 
 while True: 
-    # Read all the ADC.   
+    # Read all the ADC.
+    adc_values = [0] * 8    
     try:
         adc_values = [mcp.read_adc(i) for i in range(8)]
         appendLog(log_file_name, adc_values)
     except Exception as ex:
-        print(ex.type(), ex.args, "ooops")
-        adc_values = [0] * 8   
-    t.sleep(loop_sleep)  # Pause for half a second.
+        printException("READ ADC EXCEPTION ", ex)
+        
+# Pause for half a second.          
+    t.sleep(loop_sleep)
 
-    # Find if there is some of the gpio-named files.     
+
+# Find if there is some of the gpio-named files.     
     for ch in range_of_gpio_pins:
-        # find if there is any command file left:
+# find if there is any command file left:
         command_file_name = str(ch) + ".txt"
         if o.path.exists(command_file_name):
-            # if exists, do the GPIO thing:
+# if exists, do the GPIO thing:
             fileToThread(command_file_name)            
             try:
                 o.remove(command_file_name)            
             except Exception as ex:
                 printException("NO COMMAND FILE NAME EXCEPTION ", ex)            
-     
-    # Write the log to the database.         
-    try:
-        sqliteConnection = connectToSpecificDatabase()
+
+# Write the log to the database.      
+    try:   
+        sqliteConnection = connectToSpecificDatabase(sqlite_db_folder_name)
         if not(table_in_db_created):
             createTable(sqliteConnection)
             table_in_db_created = True
@@ -160,4 +162,4 @@ while True:
         if (sqliteConnection):
             sqliteConnection.close()        
     except Exception as ex:
-        printException("SQL EXCEPTION ", EX)
+        printException("SQL EXCEPTION ", ex)
