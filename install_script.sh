@@ -22,20 +22,16 @@ sudo python3 setup.py install
 sudo raspi-config
 
 sudo apt-get install nginx
-sudo apt-get install php php7.3-fpm
-sudo nano /etc/nginx/sites-available/default
-sudo nano /var/www/html/index.php
-sudo systemctl stop nginx
-sudo systemctl start nginx
+sudo apt-get install php php7.3-fpm php7.3-sqlite
+sudo geany /etc/php/7.3/cli/php.ini {and enable sqlite3)
+sudo echo -e 'server {\r\n	listen 80 default_server;\r\n	listen [::]:80 default_server;\r\n	root /var/www/html;\r\n	index index.php;\r\n	server_name _;\r\n	location / {\r\n		try_files $uri $uri/ =404;\r\n		}\r\n	location ~ \.php$ {\r\n		include snippets/fastcgi-php.conf;\r\n		fastcgi_pass unix:/run/php/php7.3-fpm.sock;\r\n		}\r\n}r\n' > /etc/nginx/sites-available/default
+sudo service nginx restart
 
 sudo usermod -a -G www-data pi
 sudo chgrp -R www-data /home/pi/gardengroup/
 sudo chmod -R g+w /home/pi/gardengroup
 
-sudo geany /etc/php/7.3/cli/php.ini {and enable sqlite3)
-sudo apt-get install php7.3-sqlite
-sudo service nginx restart
-
+cd ~
 wget https://phpchart.com/phpChart/download/lswdp/phpChart_Lite.zip
 wget https://github.com/basilije/gardengroup/blob/master/phpChart_Lite.zip
 sudo mkdir /var/www/html/phpChart_Lite
@@ -49,4 +45,3 @@ sudo dpkg -i teamviewer-host_armhf.deb
 echo -e '#!/usr/bin/bash\r\n\r\ncd /home/pi/gardengroup/\r\npython3 gardengroup.py\r\n' > /home/pi/gardengroup/startup_script.sh
 sudo crontab -e
 @reboot sh /home/pi/gardengroup/startup_script.sh
-
