@@ -24,7 +24,7 @@ sudo raspi-config
 sudo apt-get install nginx
 sudo apt-get install php php7.3-fpm php7.3-sqlite
 sudo geany /etc/php/7.3/cli/php.ini {and enable sqlite3)
-sudo sh -c "echo -e 'server {\r\n	listen 80 default_server;\r\n	listen [::]:80 default_server;\r\n	root /var/www/html;\r\n	index index.php;\r\n	server_name _;\r\n	location / {\r\n		try_files $uri $uri/ =404;\r\n		}\r\n	location ~ \.php$ {\r\n		include snippets/fastcgi-php.conf;\r\n		fastcgi_pass unix:/run/php/php7.3-fpm.sock;\r\n		}\r\n}\r\n' > /etc/nginx/sites-available/default"
+sudo sh -c "echo 'server {\r\n	listen 80 default_server;\r\n	listen [::]:80 default_server;\r\n	root /var/www/html;\r\n	index index.php;\r\n	server_name _;\r\n	location / {\r\n		try_files $uri $uri/ =404;\r\n		}\r\n	location ~ \.php$ {\r\n		include snippets/fastcgi-php.conf;\r\n		fastcgi_pass unix:/run/php/php7.3-fpm.sock;\r\n		}\r\n}\r\n' > /etc/nginx/sites-available/default"
 sudo service nginx restart
 
 sudo usermod -a -G www-data pi
