@@ -37,7 +37,7 @@ cd ~
 wget https://phpchart.com/phpChart/download/lswdp/phpChart_Lite.zip
 wget https://github.com/basilije/gardengroup/blob/master/phpChart_Lite.zip
 sudo mkdir /var/www/html/phpChart_Lite
-sudo unzip phpChart_Lite.zip -d /var/www/html/phpChart_Lite/
+sudo unzip phpChart_Lite.zip -d /var/www/html/
 
 sudo apt-get install libqt5qml5 libqt5quick5 libqt5webkit5 qml-module-qtquick2 qml-module-qtquick-controls qml-module-qtquick-dialogs qml-module-qtquick-window2 qml-module-qtquick-layouts
 sudo apt --fix-broken install
