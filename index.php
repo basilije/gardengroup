@@ -56,10 +56,10 @@
 	if ($to_refresh=='on')
 		echo '<script type="text/javascript">  setInterval("my_function();",'.$refresh_rate.'); function my_function(){ parent.window.location.reload(); }</script>';	
 
-	echo '<form method="post"> analog input <select name="analog_inputs" '.$button_style.''.$button_style.'><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option><option value="P4">P4</option> <option value="P5">P5</option><option value="P6">P6</option><option value="P7">P7</option>	</select>';
-	echo 'last <input type = "Text" '.$button_style.' name = "duration3"> values <input type="checkbox" '.$button_style.'id="to_refresh" name="to_refresh" value="on" ';
-	if ($to_refresh=='on'){}else {echo 'un';} echo 'checked>(auto-refresh) <input type="submit" '.$button_style.' name="B3"></form>';
-
+	echo '<form method="post">analog-input><select name="analog_inputs" '.$button_style.''.$button_style.'><option value="P0">P0</option><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option><option value="P4">P4</option> <option value="P5">P5</option><option value="P6">P6</option><option value="P7">P7</option>	</select>';
+	echo '   last><input type = "Text" '.$button_style.' name = "duration3"> values <input type="checkbox" '.$button_style.'id="to_refresh" name="to_refresh" value="on" ';
+	if ($to_refresh=='on'){}else {echo 'un';} echo 'checked>(auto-refresh) <input type="submit" '.$button_style.' name="B3" value="sub-mit"> {!} <input type = "submit" '.$button_style.' name="ESC" value="stop-refresh"/> </form>';
+	echo ' <h4 align="right">         The plot     </h4>';
 	try {
 		$Y = array();	
 		if ($last_values_to_plot == '') {	$last_values_to_plot = $default_no_of_values;}
@@ -84,7 +84,7 @@
 	} catch (exception $e) {}		
 	
 	try {
-		$pc4 = new C_PhpChartX(array($Y),'Graph');
+		$pc4 = new C_PhpChartX(array($Y));
 		$pc4->set_title(array('text'=>$to_read.' analog input'));
 		$pc4->add_plugins(array('cursor'));    
 		$pc4->set_cursor(array('show'=>true,'zoom'=>true));
@@ -95,10 +95,10 @@
 		$pc4->draw();
 	} catch (exception $e) {}	
 
-	echo '<h4>         click on the button to feed the plant    </h4>	<br></br>	
+	echo '<h4 align="center">         click on the button to feed the plant    </h4>	<br></br>	
 		<form method="post">		<input type = "submit" '.$button_style.' name="B1" value="Turn ON Switch 1 for"/> 		<input type = "Text" '.$button_style.'value ="" name = "duration1"> seconds	</form>  	<br></br>  
 		<form method="post"> 		<input type = "submit" '.$button_style.' name="B2" value="Turn ON Switch 2 for"/> 		<input type = "Text" '.$button_style.' value ="" name = "duration2"> seconds	</form>  <br></br>';		
 	echo '<h4>       configuration  settings    </h4>  <form action="" method="post"> <textarea name="html"style="width:660px;height:330px;">' . htmlspecialchars($content0) . '</textarea> <input type="submit" '.$button_style.' id="E1" name="E1" value="Save configuration" />';	
-	echo '<h4>       special  commands    </h4> <input type = "submit" '.$button_style.' name="ESC" value="stop refresh"/> ';		
+			
 	echo '<br></br><i>... !you know why?  __________ </i></body></html>';	
 ?>
