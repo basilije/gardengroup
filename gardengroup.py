@@ -191,7 +191,8 @@ while True:
             if cfg_variable == 'ad_value': ad_value = cfg_value   
             if cfg_variable == 'on_gpio_port': on_gpio_port  = cfg_value   
             if cfg_variable == 'gpio_duration': gpio_duration = cfg_value   
-            if cfg_variable == 'gpio_wait': gpio_wait = cfg_value   
+            if cfg_variable == 'gpio_wait': gpio_wait = float(cfg_value)
+            if cfg_variable == 'loop_sleep': loop_sleep = float(loop_sleep)
         for cfg_variable,cfg_value in cp.items(cfg_port_section):
             if (on_gpio_port=='1') and cfg_variable == 'port1': port_to_use = cfg_value  
             if (on_gpio_port=='2') and cfg_variable == 'port2': port_to_use = cfg_value  
@@ -205,7 +206,7 @@ while True:
                 fi.close()
                 port_time = d.datetime.now()
             else:
-                print("GPIO waiting...",delta_time.total_seconds(),float(gpio_wait))
+                print("GPIO waiting...",delta_time.total_seconds(),gpio_wait)
                     
     except Exception as ex:
         printException("AI EXCEPTION ", ex)
