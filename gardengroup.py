@@ -136,18 +136,12 @@ log_file_name = log_folder_name + str(d.datetime.now()).replace(":","").replace(
 table_header = ["P0","P1","P2","P3","P4","P5","P6","P7","Date"]
 range_of_gpio_pins = range(25)
 table_in_db_created = False
-
-
-global loop_sleep
-loop_sleep = 0.5
-
 mcp = getMCPDevice()                
 printHeader()
 initializeLog(log_file_name, table_header)
-
+loop_sleep = 0.5
 port_to_use = None
 port_time = d.datetime.now()
-# ~ print("port_time",port_time)
 ad_in = None
 cmp_sign = None
 ad_value = None
@@ -168,15 +162,17 @@ while True:
         appendLog(log_file_name, adc_values)
     except Exception as ex:
         printException("READ ADC EXCEPTION ", ex)        
-    
+
 
 # Find if there is some of the gpio-named files.     
     for ch in range_of_gpio_pins:
 # find if there is any command file left:
         command_file_name = str(ch) + ".txt"
+        
         if o.path.exists(command_file_name):
 # if exists, do the GPIO thing:
-            fileToThread(command_file_name)            
+            fileToThread(command_file_name)  
+                      
             try:
                 o.remove(command_file_name)            
             except Exception as ex:
@@ -186,8 +182,8 @@ while True:
     try:
         # Read the configuration file 
         cp.read(cfg_file_name)
+        
         for cfg_variable,cfg_value in cp.items(cfg_criteria_section):
-            # ~ print(cfg_variable, cfg_value)
             if cfg_variable == 'ad_in': ad_in = cfg_value   
             if cfg_variable == 'cmp_sign': cmp_sign = cfg_value   
             if cfg_variable == 'ad_value': ad_value = cfg_value   
@@ -195,11 +191,13 @@ while True:
             if cfg_variable == 'gpio_duration': gpio_duration = cfg_value   
             if cfg_variable == 'gpio_wait': gpio_wait = float(cfg_value)
             if cfg_variable == 'loop_sleep': loop_sleep = float(cfg_value)
-            # ~ print(cfg_variable, cfg_value, loop_sleep)
+
         for cfg_variable,cfg_value in cp.items(cfg_port_section):
             if (on_gpio_port=='1') and cfg_variable == 'port1': port_to_use = cfg_value  
-            if (on_gpio_port=='2') and cfg_variable == 'port2': port_to_use = cfg_value  
+            if (on_gpio_port=='2') and cfg_variable == 'port2': port_to_use = cfg_value 
+             
         res = compareValues(adc_values, ad_in, cmp_sign, ad_value)
+        
         if res:
             delta_time = d.datetime.now()- port_time
             if delta_time.total_seconds()>float(gpio_wait):
@@ -213,7 +211,7 @@ while True:
                     
     except Exception as ex:
         printException("AI EXCEPTION ", ex)
-    # ~ print('loop_sleepX',loop_sleep)
+
 # Write the log to the database.      
     try:   
         sqlite_connection = connectToSpecificDatabase(sqlite_db_folder_name)
@@ -225,6 +223,5 @@ while True:
             sqlite_connection.close()        
     except Exception as ex:
         printException("SQL EXCEPTION ", ex)
-
-    # ~ print(loop_sleep, 'zzzzz', type(loop_sleep))   
+  
     s(loop_sleep)
