@@ -20,6 +20,7 @@ def connectToSpecificDatabase(sqlite_db_folder_name):
     try:
         sqlite_database_name = sqlite_db_folder_name + str(d.datetime.now()).split(" ")[0] +'.db'
         connection = q.connect(sqlite_database_name)
+        o.chmod(sqlite_database_name, 0o775)
     except Exception as ex:
         printException("CONNECT TO DB " + sqlite_database_name +" EXCEPTION ", ex)
     return connection
@@ -146,7 +147,7 @@ cmp_sign = None
 ad_value = None
 on_gpio_port = None
 gpio_duration = 0
-gpio_wait = 60
+gpio_wait = 15
 cfg_file_name = 'cfg.cfg'
 cfg_port_section = 'gpio'
 cfg_criteria_section = 'criteria'
@@ -176,7 +177,6 @@ while True:
     try:
         # Read the configuration file 
         cp.read(cfg_file_name)
-        
         for cfg_variable,cfg_value in cp.items(cfg_criteria_section):
             if cfg_variable == 'ad_in': ad_in = cfg_value   
             if cfg_variable == 'cmp_sign': cmp_sign = cfg_value   
@@ -185,13 +185,10 @@ while True:
             if cfg_variable == 'gpio_duration': gpio_duration = cfg_value   
             if cfg_variable == 'gpio_wait': gpio_wait = float(cfg_value)
             if cfg_variable == 'loop_sleep': loop_sleep = float(cfg_value)
-
         for cfg_variable,cfg_value in cp.items(cfg_port_section):
             if (on_gpio_port=='1') and cfg_variable == 'port1': port_to_use = cfg_value  
             if (on_gpio_port=='2') and cfg_variable == 'port2': port_to_use = cfg_value 
-             
         res = compareValues(adc_values, ad_in, cmp_sign, ad_value)
-        
         if res:
             delta_time = d.datetime.now()- port_time
             if delta_time.total_seconds()>float(gpio_wait):
