@@ -15,32 +15,32 @@ def printException(text, exce):
     print(text, type(exce), exce.args)
 
 def connectToSpecificDatabase(sqlite_db_folder_name):
-    sqliteConnection = None
+    connection = None
     try:
         sqlite_database_name = sqlite_db_folder_name + str(d.datetime.now()).split(" ")[0] +'.db'
-        sqliteConnection = q.connect(sqlite_database_name)
+        connection = q.connect(sqlite_database_name)
     except Exception as ex:
         printException("CONNECT TO DB " + sqlite_database_name +" EXCEPTION ", ex)
-    return sqliteConnection
+    return connection
 
-def createTable(sqliteConnection):
+def createTable(sqlite_connection):
     try:
         sqlite_create_table_query = '''CREATE TABLE records (P0 INT NOT NULL, P1 INT NOT NULL, P2 INT NOT NULL, P3 INT NOT NULL, P4 INT NOT NULL, P5 INT NOT NULL, P6 INT NOT NULL, P7 INT NOT NULL, dt TEXT NOT NULL);'''
-        cursor = sqliteConnection.cursor()    
+        cursor = sqlite_connection.cursor()    
         cursor.execute(sqlite_create_table_query)
-        sqliteConnection.commit()
+        sqlite_connection.commit()
         cursor.close()  
     except Exception as ex:
         printException("CREATE TABLE EXCEPTION ", ex)
 
-def insertRecord(connection, record):
+def insertRecord(sqlite_connection, record):
     try:
         sql = ''' INSERT INTO records(P0,P1,P2,P3,P4,P5,P6,P7,dt) VALUES(?,?,?,?,?,?,?,?,?) '''
-        cur = connection.cursor()
+        cur = sqlite_connection.cursor()
         cur.execute(sql, record)
-        connection.commit()
+        sqlite_connection.commit()
     except Exception as ex:
-        printException("CREATE TABLE EXCEPTION", ex)
+        printException("INSERT RECORD EXCEPTION", ex)
 
 def printHeader():
     # Print nice channel column headers.
@@ -56,7 +56,7 @@ def getMCPDevice(hardware = True):
             SPI_PORT, SPI_DEVICE = 0, 0
             mcp = m.MCP3008(spi=a.SpiDev(SPI_PORT, SPI_DEVICE))  
     except Exception as ex:
-        printException("CREATE TABLE EXCEPTION ", ex)  
+        printException("GET MCP EXCEPTION ", ex)  
     return mcp
 
 def appendListAsRow(file_name, list_of_elem):   
@@ -154,12 +154,12 @@ while True:
 
 # Write the log to the database.      
     try:   
-        sqliteConnection = connectToSpecificDatabase(sqlite_db_folder_name)
+        sqlite_connection = connectToSpecificDatabase(sqlite_db_folder_name)
         if not(table_in_db_created):
-            createTable(sqliteConnection)
+            createTable(sqlite_connection)
             table_in_db_created = True
-        insertRecord(sqliteConnection, adc_values)
-        if (sqliteConnection):
-            sqliteConnection.close()        
+        insertRecord(sqlite_connection, adc_values)
+        if (sqlite_connection):
+            sqlite_connection.close()        
     except Exception as ex:
         printException("SQL EXCEPTION ", ex)
