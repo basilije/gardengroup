@@ -94,11 +94,9 @@ def gpioOFF(gpio):
     g.output(gpio, g.HIGH)
   
 def gpioOnTime(no_gpio, on_time):
-    print("COMMAND:", no_gpio, on_time)
-    
+    print("COMMAND:", no_gpio, on_time)    
     g.setmode(g.BCM)
     g.setup(no_gpio,g.OUT, initial=g.HIGH)
-
     gpioOFF(no_gpio)
     gpioON(no_gpio, on_time)
     gpioOFF(no_gpio)   
@@ -118,6 +116,7 @@ def compareValues(adc_values, ad_in, cmp_sign, ad_value):
     value1 = float(adc_values[int(ad_in)])
     value2 = float(ad_value)
     to_return = None
+    
     if cmp_sign == "<":
         to_return = (value1 < value2)
     if cmp_sign == ">":
@@ -129,7 +128,7 @@ def compareValues(adc_values, ad_in, cmp_sign, ad_value):
     return(to_return)
 
  
-# Main program loop.
+### Main program
 sqlite_db_folder_name = "dbs/"
 log_folder_name = "logs/"
 log_file_name = log_folder_name + str(d.datetime.now()).replace(":","").replace("-","").replace(" ","_").replace(".",",")+".csv"
@@ -162,17 +161,12 @@ while True:
         appendLog(log_file_name, adc_values)
     except Exception as ex:
         printException("READ ADC EXCEPTION ", ex)        
-
-
-# Find if there is some of the gpio-named files.     
-    for ch in range_of_gpio_pins:
-# find if there is any command file left:
-        command_file_name = str(ch) + ".txt"
+    
+    for ch in range_of_gpio_pins:  # Find if there is some of the gpio-named files. 
+        command_file_name = str(ch) + ".txt"  # find if there is any command file left:
         
-        if o.path.exists(command_file_name):
-# if exists, do the GPIO thing:
-            fileToThread(command_file_name)  
-                      
+        if o.path.exists(command_file_name): # if exists, do the GPIO thing:
+            fileToThread(command_file_name)                        
             try:
                 o.remove(command_file_name)            
             except Exception as ex:
