@@ -29,9 +29,7 @@ sudo service nginx restart
 
 sudo usermod -a -G www-data pi
 sudo chgrp -R www-data /home/pi/gardengroup/
-sudo chmod -R g+w /home/pi/gardengroup
-sudo chgrp -R www-data /home/pi/gardengroup/dbs
-sudo chmod -R g+w /home/pi/gardengroup/dbs
+sudo chmod -R 775 /home/pi/gardengroup
 
 cd ~
 wget https://phpchart.com/phpChart/download/lswdp/phpChart_Lite.zip
