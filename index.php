@@ -23,7 +23,7 @@
 		fclose($myfile0);			}	
 		
 	if(isset($_POST['B1'])) { 
-		$filename1 = $current_folder.$ini_array[port1].'.txt';
+		$filename1 = $current_folder.$ini_array['port1'].'.txt';
 		$content1 = $_POST['duration1'];
 		$myfile1 = fopen($filename1, "w") or die("Unable to open file1!");
 		fwrite($myfile1, $content1);
@@ -31,7 +31,7 @@
 		unset($_POST['B1']);	} 
 		
 	if(isset($_POST['B2'])) { 
-		$filename2 = $current_folder.$ini_array[port2].'.txt';
+		$filename2 = $current_folder.$ini_array['port2'].'.txt';
 		$content2 = $_POST['duration2'];
 		$myfile2 = fopen($filename2, "w") or die("Unable to open file2!");
 		fwrite($myfile2, $content2);
