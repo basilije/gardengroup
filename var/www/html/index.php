@@ -1,6 +1,6 @@
 <?php
 	echo ' <!DOCTYPE html><html><title>The Real Signals Of Your Garden</title><html lang="en">
-	<head>  <meta charset="utf-8">  <title>The Real Signals Of Your Garden</title>  <meta name="description" content="The Real Signals Of Your Garden">  <meta name="author" content="The Real Signals Of Your Garden"></head>
+	<head>  <meta charset="utf-8">  <title>The Real Signals Of Your Garden</title>  <meta name="description" content="The Real Signals Of Your Garden">  <meta name="author" content="Vasilije Mehandzic"></head>
 	<style>html, body {    height: 100%;}html {    display: table;    margin: auto;}  body {  background-color:#CDC;  display: table-cell;    vertical-align: top;}  h4{	color:black;  height:42px;  border: none;  box-shadow: -2px 5px 0px -2px grey, 2px 5px 0px -2px grey;}</style>	
 	<body><i>__________  something {special}   ! ...</i> <h1 style="color:green;"> GardenGroup </h1><h4>         The Real Signals Of Your Garden     </h4>';
 	
