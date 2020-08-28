@@ -1,3 +1,6 @@
+#!/bin/bash   
+#author	Vasilije Mehandzic
+
 sudo apt-get update
 sudo apt-get install build-essential python-pip python-dev python-smbus git
 
