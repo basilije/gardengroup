@@ -1,2 +1,3 @@
-curl -o /home/pi/gardengroup/gardengroup.py https://github.com/basilije/gardengroup/blob/master/home/pi/gardengroup/gardengroup.py
-sudo curl -o /var/www/html/index.php https://github.com/basilije/gardengroup/blob/master/var/www/html/index.php
+sudo curl -o /var/www/html/index.php https://raw.githubusercontent.com/basilije/gardengroup/master/var/www/html/index.php
+curl -o /home/pi/gardengroup/gardengroup.py https://raw.githubusercontent.com/basilije/gardengroup/master/home/pi/gardengroup/gardengroup.py
+
