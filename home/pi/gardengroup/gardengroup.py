@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+# Author: Vasilije Mehandzic
 import Adafruit_GPIO.SPI as a
 import csv as c
 import datetime as d
