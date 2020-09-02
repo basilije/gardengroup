@@ -1,3 +1,7 @@
+#!/bin/bash
+# You should unpack the phpChartLite here
+# as in installation script:
+
 wget https://github.com/basilije/gardengroup/blob/master/phpChart_Lite.zip
 sudo mkdir /var/www/html/phpChart_Lite
 sudo unzip phpChart_Lite.zip -d /var/www/html/
